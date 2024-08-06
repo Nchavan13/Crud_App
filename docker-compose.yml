@@ -1,0 +1,32 @@
+version: "3.8"
+services:
+  app:
+    build: .
+    ports:
+      - "9090:9090"
+    networks:
+      - springboot-db-net
+    depends_on:
+      - mysqldb
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/crud
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ItsMe
+
+  mysqldb:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    networks:
+      - springboot-db-net
+    environment:
+      MYSQL_ROOT_PASSWORD: ItsMe
+      MYSQL_DATABASE: crud
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+networks:
+  springboot-db-net:
+
+volumes:
+  mysql-data:
