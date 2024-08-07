@@ -1,36 +1,24 @@
-version: "3.8"
-
+version: "3"
 services:
-  app:
-    build: .
-    image: spring-boot-mysql-app:latest  # Use this name if you need to tag the built image
+  application:
+    image: spring-boot-mysql-app
     ports:
-      - "9090:9090"
+      - "8080:8080"
     networks:
       - springboot-db-net
     depends_on:
       - mysqldb
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/crud
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: ItsMe
     volumes:
       - /data/springboot-app
 
   mysqldb:
     image: mysql:5.7
-    ports:
-      - "3306:3306"
     networks:
       - springboot-db-net
     environment:
-      MYSQL_ROOT_PASSWORD: ItsMe
-      MYSQL_DATABASE: crud
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=ItsMe
     volumes:
       - /data/mysql
-
 networks:
   springboot-db-net:
-
-volumes:
-  mysql-data:
